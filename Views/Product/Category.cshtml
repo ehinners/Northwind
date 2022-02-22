@@ -1,0 +1,14 @@
+@using Northwind.Models
+@model IEnumerable<Category>
+
+<div class="bg-primary m-1 p-1 text-white"><h4>Categories</h4></div>
+<ul>
+    @foreach (Category category in Model)
+    {
+        <li>@category.CategoryName - @category.Description</li>
+    }
+</ul>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/client.js"></script>
+}
