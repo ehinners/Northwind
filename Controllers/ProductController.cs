@@ -9,12 +9,12 @@ namespace Northwind.Controllers
     {
         private NorthwindContext _northwindContext;
         public ProductController(NorthwindContext db) => _northwindContext = db;
-        public ActionResult Category() => View(_northwindContext.Categories);
+        public ActionResult Category() => View(_northwindContext.Categories.OrderBy(b => b.CategoryName));
 
         public IActionResult ProductDetail(int id) => View(new ProductViewModel
         {
             category = _northwindContext.Categories.FirstOrDefault(b => b.CategoryId == id),
-            Products = _northwindContext.Products.Where(p => p.CategoryId == id)
+            Products = _northwindContext.Products.Where(p => p.CategoryId == id && p.Discontinued == false)
         });
     }
 }
