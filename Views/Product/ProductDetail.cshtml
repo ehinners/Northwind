@@ -1,7 +1,19 @@
 @using Northwind.Models
 @model ProductViewModel
 
-<div class="bg-primary m-1 p-1 text-white"><h4>@Model.category.CategoryName</h4></div>
+
+<div class="bg-primary container">
+    <div class="bg-primary m-1 p-1 text-white row d-flex justify-content-between align-items-end">
+        <div>
+            <h4>@Model.category.CategoryName</h4>
+        </div>
+        <div>
+            <a class="btn btn-outline-light btn-lg" asp-action="Category" >Back to Categories</a>
+        </div>        
+    </div>
+</div>
+
+
 
 @if (Model.Products.Count() == 0)
 {
