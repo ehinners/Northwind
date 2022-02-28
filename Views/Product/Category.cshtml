@@ -5,7 +5,10 @@
 <ul class="list-group">
     @foreach (Category category in Model)
     {
-        <li class="list-group-item">@category.CategoryName - @category.Description</li>
+        <li class="list-group-item">
+            @category.CategoryName - @category.Description |
+            <a asp-action="ProductDetail" asp-route-id="@category.CategoryId">View Products</a>
+        </li>
     }
 </ul>
 

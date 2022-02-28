@@ -1,0 +1,38 @@
+@using Northwind.Models
+@model ProductViewModel
+
+<div class="bg-primary m-1 p-1 text-white"><h4>@Model.category.CategoryName</h4></div>
+
+@if (Model.Products.Count() == 0)
+{
+    <p>There are no products</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Unit Price</th>
+                <th scope="col">Units In Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Product product in Model.Products)
+            {
+                <tr scope="row">
+                    <td>
+                        @product.ProductName
+                    </td>
+                    <td>
+                        @product.UnitPrice
+                    </td>
+                    <td>
+                        @product.UnitsInStock
+                    </td>
+                </tr>
+            }
+        </tbody>
+        
+    </table>
+}
