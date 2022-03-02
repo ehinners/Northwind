@@ -36,9 +36,7 @@ else
                     <td>
                         @product.ProductName
                     </td>
-                    <td>
-                        @product.UnitPrice
-                    </td>
+                    <td class="text-left">@string.Format("{0:c}", product.UnitPrice)</td>
                     <td>
                         @product.UnitsInStock
                     </td>
