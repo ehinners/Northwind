@@ -1,0 +1,22 @@
+@using Northwind.Models
+
+@if (1 == 0)
+{
+    <p>There are no active discounts</p>
+}
+else
+{
+    <div class="bg-primary m-1 p-1 text-white"><h4>Discounts</h4></div>
+    <ul class="list-group">
+        @foreach (Discount discount in Model)
+        {
+            <li class="list-group-item">
+                <b>@discount.Title</b>  @String.Format("{0:MMM d yy}",discount.StartTime) - @String.Format("{0:MMM d yy}",discount.EndTime)
+            <br>
+                @discount.Product.ProductName - @String.Format("{0}", discount.DiscountPercent*100)%  | Discount Code: @discount.Code
+            <br>
+                @discount.Description 
+            </li>
+        }
+    </ul>
+}
