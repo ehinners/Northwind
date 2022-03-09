@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Northwind.Controllers
 {
@@ -20,20 +21,7 @@ namespace Northwind.Controllers
 
         public ActionResult DiscountDetail()
         {
-            IEnumerable<Discount> discounts = (from discount in _northwindContext.Discounts
-            join product in _northwindContext.Products on discount.ProductID equals product.ProductId
-            where discount.StartTime <= DateTime.Now && discount.EndTime > DateTime.Now
-            select new Discount { 
-                DiscountID = discount.DiscountID,
-                Code = discount.Code,
-                StartTime = discount.StartTime,
-                EndTime = discount.EndTime,
-                ProductID = discount.ProductID,
-                DiscountPercent = discount.DiscountPercent,
-                Title = discount.Title,
-                Description = discount.Description,
-                Product = product
-            }).ToList();
+            var discounts = _northwindContext.Discounts.Include(p => p.Product);
 
             return View(discounts);
         }
