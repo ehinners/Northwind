@@ -17,5 +17,13 @@ namespace Northwind.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(Customer model)
+        {
+            _northwindContext.AddCustomer(model);
+            return RedirectToAction("Register");
+        }
     }
 }

@@ -1,14 +1,13 @@
 @using Northwind.Models
-@model IEnumerable<Category>
+@model Customer
 
 <div class="bg-primary m-1 p-1 text-white"><h4>Registering</h4></div>
-<ul class="list-group">
-   
-        <li class="list-group-item">
-            Register Here
-        </li>
-    
-</ul>
+
+<form method="post">
+    <label asp-for="@Model.CompanyName">Enter Company Name</label>
+    <input asp-for="@Model.CompanyName" />
+    <button type="submit">Register</button>
+</form>
 
 @section Scripts {
     <script type="text/javascript" src="~/js/client.js"></script>
