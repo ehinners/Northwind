@@ -21,9 +21,22 @@ namespace Northwind.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Register(Customer model)
-        {
-            _northwindContext.AddCustomer(model);
-            return RedirectToAction("Register");
+        {           
+            if(ModelState.IsValid)
+            {
+                if(_northwindContext.Customers.Any(b => b.CompanyName == model.CompanyName))
+                {
+                    ModelState.AddModelError("","Name must be unique");
+                }
+                else
+                {
+                    _northwindContext.AddCustomer(model);
+                return RedirectToAction("Register");
+                }
+                
+            }            
+            return View();
+            
         }
     }
 }
