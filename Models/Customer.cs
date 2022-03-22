@@ -8,7 +8,7 @@ namespace Northwind.Models
         // primary key
         public   int  CustomerId {get; set;}
         
-        [Required(ErrorMessage = "Company Name is required.")]
+        [Required]
         public   string CompanyName {get; set;}
         public   string Address {get; set;}
         public   string City {get; set;}
