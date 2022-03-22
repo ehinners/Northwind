@@ -21,7 +21,7 @@ namespace Northwind.Controllers
 
         public ActionResult DiscountDetail()
         {
-            var discounts = _northwindContext.Discounts.Include(p => p.Product);
+            var discounts = _northwindContext.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now).Include(p => p.Product);
 
             return View(discounts);
         }
