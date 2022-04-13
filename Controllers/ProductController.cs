@@ -19,6 +19,11 @@ namespace Northwind.Controllers
             Products = _northwindContext.Products.Where(p => p.CategoryId == id && p.Discontinued == false)
         });
 
+        public IActionResult Index(int id){
+            ViewBag.id = id;
+            return View(_northwindContext.Categories.OrderBy(c => c.CategoryName));
+        }
+
         public ActionResult DiscountDetail()
         {
             var discounts = _northwindContext.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now).Include(p => p.Product);

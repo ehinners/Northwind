@@ -46,3 +46,32 @@ else
         
     </table>
 }
+
+@section scripts
+{
+    <script>
+    $(function () {
+        getProducts()
+        function getProducts() {
+            $.getJSON({
+                url: "../../api/product",
+                success: function (response, textStatus, jqXhr) {
+                    $('#product_rows').html("");
+                    for (var i = 0; i < response.length; i++){
+                        var row = "<tr>"
+                            + "<td>" + response[i].productName + "</td>"
+                            + "<td>" + response[i].unitPrice + "</td>"
+                            + "<td>" + response[i].unitsInStock + "</td>"
+                            + "</tr>";
+                        $('#product_rows').append(row);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // log the error to the console
+                    console.log("The following error occured: " + textStatus, errorThrown);
+                }
+            });
+        }
+    });
+    </script>
+}

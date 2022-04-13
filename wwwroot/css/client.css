@@ -80,3 +80,7 @@ a.navbar-brand {
     right: 10px;
 }
 
+.discontinued {
+  opacity: .5;
+}
+

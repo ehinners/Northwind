@@ -7,7 +7,8 @@
     {
         <li class="list-group-item">
             @category.CategoryName - @category.Description |
-            <a asp-action="ProductDetail" asp-route-id="@category.CategoryId">View Products</a>
+            <!--a asp-action="ProductDetail" asp-route-id="@category.CategoryId">View Products</a-->
+            <a asp-action="Index" asp-route-id="@category.CategoryId">View Products</a>
         </li>
     }
 </ul>
