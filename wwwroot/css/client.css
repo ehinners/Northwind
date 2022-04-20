@@ -84,3 +84,7 @@ a.navbar-brand {
   opacity: .5;
 }
 
+#product_rows tr {
+  cursor: pointer;
+}
+
