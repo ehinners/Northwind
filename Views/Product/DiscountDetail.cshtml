@@ -1,22 +1,64 @@
 @using Northwind.Models
-
 @if (1 == 0)
 {
     <p>There are no active discounts</p>
 }
 else
 {
-    <div class="bg-primary m-1 p-1 text-white"><h4>Discounts</h4></div>
-    <ul class="list-group">
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Discount</th>
+            <th scope="col">Start</th>
+            <th scope="col">End</th>
+            <th scope="col">Summary</th>
+            <th scope="col" class="text-right">Code</th>
+            <th scope="col" class="text-right">Percentage</th>
+            <th scope="col">Product</th>
+            <th scope="col">Modify</th>
+            
+        </tr>
+    </thead>
+    <tbody>
         @foreach (Discount discount in Model)
         {
-            <li class="list-group-item">
-                <b>@discount.Title</b>  @String.Format("{0:MMM d yy}",discount.StartTime) - @String.Format("{0:MMM d yy}",discount.EndTime)
-            <br>
-                @discount.Product.ProductName - @String.Format("{0}", discount.DiscountPercent*100)%  | Discount Code: @discount.Code
-            <br>
-                @discount.Description 
-            </li>
+            <tr id="discountRows">
+                <td>@discount.Title</td>
+                <td>@String.Format("{0:MMM d yyyy}",discount.StartTime)</td>
+                <td>@String.Format("{0:MMM d yyyy}",discount.EndTime)</td>
+                <td> @discount.Description </td>
+                <td class="text-right">@discount.Code</td>
+                <td class="text-right">@String.Format("{0:0.##}", discount.DiscountPercent*100)% </td>
+                <td>@discount.Product.ProductName</td>
+                <td class="">
+                    <button type="button" class="btn btn-outline-primary btn-block">Edit</button> 
+                    <button type="button" class="btn btn-outline-danger btn-block">Delete</button>
+                </td>
+            </tr>
         }
-    </ul>
+    </tbody>
+</table>
 }
+@* <!-- cart item modal -->
+<div id="modifyModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modify Discount?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                <div style="display:none;" id="ProductId"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="editDiscount">Edit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="../../js/product.js"></script>
+} *@
