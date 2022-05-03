@@ -1,7 +1,4 @@
 @using Northwind.Models
-@if (User.IsInRole("northwind-employee")){
-    <button type="button" class="btn btn-primary btn-lg btn-block mb-4">Add A Discount</button>
-    }
 @if (1 == 0)
 {
     <p>There are no active discounts</p>
@@ -12,35 +9,22 @@ else
     <thead>
         <tr>
             <th scope="col">Discount</th>
-            <th scope="col">Start</th>
-            <th scope="col">End</th>
             <th scope="col">Summary</th>
             <th scope="col" class="text-right">Code</th>
             <th scope="col" class="text-right">Percentage</th>
-            <th scope="col">Product</th>
-            @if (User.IsInRole("northwind-employee")){
-                <th scope="col">Modify</th>
-            }
-            
+            <th scope="col" class="text-right">Modify</th>
         </tr>
     </thead>
     <tbody>
         @foreach (Discount discount in Model)
         {
             <tr id="discountRows">
-                <td>@discount.Title</td>
-                <td>@String.Format("{0:MMM d yyyy}",discount.StartTime)</td>
-                <td>@String.Format("{0:MMM d yyyy}",discount.EndTime)</td>
+                <td>@discount.Title - @String.Format("{0:MMM d yy}",discount.StartTime) - @String.Format("{0:MMM d yy}",discount.EndTime)</td>
                 <td> @discount.Description </td>
-                <td class="text-right">@discount.Code</td>
-                <td class="text-right">@String.Format("{0:0.##}", discount.DiscountPercent*100)% </td>
-                <td>@discount.Product.ProductName</td>
-                @if (User.IsInRole("northwind-employee")){
-                    <td class="">
-                        <button type="button" class="btn btn-outline-primary btn-block">Edit</button> 
-                        <button type="button" class="btn btn-outline-danger btn-block">Delete</button>
-                    </td>
-                    }
+                <td class="text-right">Discount Code: @discount.Code</td>
+                <td class="text-right">@discount.Product.ProductName - @String.Format("{0}", discount.DiscountPercent*100)% </td>
+                <td class="">Edit</td>
+                <td class="">Delete</td>
             </tr>
         }
     </tbody>

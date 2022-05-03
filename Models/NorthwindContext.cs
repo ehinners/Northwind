@@ -12,7 +12,6 @@ namespace Northwind.Models
         public DbSet<Discount> Discounts { get; set; }
 
         public DbSet<Customer> Customers {get; set;}
-
         public DbSet<CartItem> CartItems {get; set;}
 
         public void AddCustomer(Customer customer)
@@ -33,7 +32,6 @@ namespace Northwind.Models
             customerToUpdate.Fax = customer.Fax;
             SaveChanges();
         }
-
         public CartItem AddToCart(CartItemJSON cartItemJSON)
         {
             int CustomerId = Customers.FirstOrDefault(c => c.Email == cartItemJSON.email).CustomerId;
@@ -56,7 +54,6 @@ namespace Northwind.Models
                 // for duplicate cart item, simply update the quantity
                 cartItem.Quantity += cartItemJSON.qty;
             }
-
             SaveChanges();
             cartItem.Product = Products.Find(cartItem.ProductId);
             return cartItem;

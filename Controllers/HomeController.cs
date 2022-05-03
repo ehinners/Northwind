@@ -17,7 +17,7 @@ namespace Northwind.Controllers
         public ActionResult Index()
         {
             var discounts = _northwindContext.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now).Include(p => p.Product).Take(3);
-           return View(discounts);
+            return View(discounts);
         }
     }
 }
