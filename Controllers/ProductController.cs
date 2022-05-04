@@ -58,14 +58,14 @@ namespace Northwind.Controllers
                     }
                     model.Code = newCode;
                     _northwindContext.AddDiscount(model);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("DiscountDetail");
                 }
             }
             return View();
         }
 
         [Authorize(Roles = "northwind-employee")]
-         public IActionResult EditDiscount(int id)
+        public IActionResult EditDiscount(int id)
         {
             ViewBag.DiscountID = id;
             return View();
