@@ -30,5 +30,6 @@ namespace Northwind.Controllers
 
             return View(discounts);
         }
+        public IActionResult DiscountEdit() => View();
     }
 }
