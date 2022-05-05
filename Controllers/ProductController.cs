@@ -65,11 +65,7 @@ namespace Northwind.Controllers
         }
 
         [Authorize(Roles = "northwind-employee")]
-        public IActionResult EditDiscount(int id)
-        {
-            ViewBag.DiscountID = id;
-            return View();
-        }
+        public IActionResult EditDiscount(int id) => View( _northwindContext.Discounts.FirstOrDefault(c => c.DiscountID == id));
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -85,7 +81,7 @@ namespace Northwind.Controllers
                 else
                 {
                     _northwindContext.EditDiscount(model);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("DiscountDetail");
                 }
             }
             return View();
@@ -95,7 +91,7 @@ namespace Northwind.Controllers
         public IActionResult DeleteDiscount(int id)
         {
             _northwindContext.DeleteDiscount(_northwindContext.Discounts.FirstOrDefault(b => b.DiscountID == id));
-            return RedirectToAction("Index");
+            return RedirectToAction("DiscountDetail");
         }
     }
 }
