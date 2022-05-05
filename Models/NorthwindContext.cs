@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System;
 
 namespace Northwind.Models
 {
@@ -71,8 +72,10 @@ namespace Northwind.Models
 
         public void EditDiscount(Discount discount)
         {
+            
             var discountToUpdate = Discounts.FirstOrDefault(c => c.DiscountID == discount.DiscountID);
-        
+            
+            
             discountToUpdate.Code = discount.Code;
             discountToUpdate.StartTime = discount.StartTime;
             discountToUpdate.EndTime = discount.EndTime;
