@@ -75,8 +75,6 @@ namespace Northwind.Models
             
             var discountToUpdate = Discounts.FirstOrDefault(c => c.DiscountID == discount.DiscountID);
             
-            
-            discountToUpdate.Code = discount.Code;
             discountToUpdate.StartTime = discount.StartTime;
             discountToUpdate.EndTime = discount.EndTime;
             discountToUpdate.ProductID = discount.ProductID;
