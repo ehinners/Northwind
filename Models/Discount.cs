@@ -1,5 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+
 namespace Northwind.Models
 {
     public class Discount
@@ -21,5 +24,6 @@ namespace Northwind.Models
         public string Description { get; set; }
 
         public Product Product { get; set; }
+
     }
 }
