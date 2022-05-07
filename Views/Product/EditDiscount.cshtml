@@ -1,37 +1,43 @@
 @using Northwind.Models
-@model Discount
+@model ProductViewModel
 
 <h2 class="mt-3"><i class="far fa-address-card"></i> Edit Discount</h2>
 
 <form method="post">
     <div asp-validation-summary="All" style="color:red;"></div>
-    <input type="hidden" name="DiscountID" value="@Model.DiscountID" />
+    <input type="hidden" name="DiscountID" value="@Model.discount.DiscountID" />
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label asp-for="@Model.Title">Title</label>
-            <input asp-for="@Model.Title" class="form-control" placeholder="Title" />
+            <label asp-for="@Model.discount.Title">Title</label>
+            <input asp-for="@Model.discount.Title" class="form-control" placeholder="Title" />
         </div>
         <div class="form-group col-md-6">
-            <label asp-for="@Model.Description">Description</label>
-            <input asp-for="@Model.Description" class="form-control" placeholder="Description" />
+            <label asp-for="@Model.discount.Description">Description</label>
+            <input asp-for="@Model.discount.Description" class="form-control" placeholder="Description" />
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-3">
-            <label asp-for="@Model.StartTime">Start Time</label>
-            <input type="date" asp-for="@Model.StartTime" class="form-control" placeholder="Start Time" />
+            <label asp-for="@Model.discount.StartTime">Start Time</label>
+            <input type="date" asp-for="@Model.discount.StartTime" class="form-control" placeholder="Start Time" />
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="@Model.EndTime">End Time</label>
-            <input type="date"  asp-for="@Model.EndTime" class="form-control" placeholder="End Time" />
+            <label asp-for="@Model.discount.EndTime">End Time</label>
+            <input type="date"  asp-for="@Model.discount.EndTime" class="form-control" placeholder="End Time" />
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="@Model.DiscountPercent">Discount Percent (0.00 to 1.00)</label>
-            <input type="number" step="0.01" asp-for="@Model.DiscountPercent" class="form-control" placeholder="50" />
+            <label asp-for="@Model.discount.DiscountPercent">Discount Percent (0.00 to 1.00)</label>
+            <input type="number" step="0.01" asp-for="@Model.discount.DiscountPercent" class="form-control" placeholder="50" />
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="@Model.ProductID">Discount Product</label>
-            <input asp-for="@Model.ProductID" class="form-control" placeholder="0" />
+        <label asp-for="@Model.discount.ProductID">Discount Product</label>
+        <select asp-for="@Model.discount.ProductID" class="form-control" id="DiscountProduct">
+            @foreach (Product p in Model.Products){
+                <option value="@p.ProductId">@p.ProductName @p.ProductId</option>
+            }
+        </select>
+            @* <label asp-for="@Model.discount.ProductID">Discount Product</label>
+            <input asp-for="@Model.discount.ProductID" class="form-control" placeholder="0" /> *@
         </div>
     </div>
 
