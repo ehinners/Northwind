@@ -46,7 +46,7 @@ namespace Northwind.Controllers
             {
                 if (_northwindContext.Discounts.Any(b => b.Title == model.Title))
                 {
-                    ModelState.AddModelError("", "Title must be unique");
+                    ModelState.AddModelError("", "Title MUST be unique");
                 }
                 else
                 {
@@ -74,9 +74,10 @@ namespace Northwind.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_northwindContext.Discounts.Any(b => b.Title == model.Title))
+                if (_northwindContext.Discounts.Any(b => b.Title == model.Title && (b.DiscountID != model.DiscountID)))
                 {
                     ModelState.AddModelError("", "Title must be unique");
+                    return View(model);
                 }
                 else
                 {
@@ -84,7 +85,7 @@ namespace Northwind.Controllers
                     return RedirectToAction("DiscountDetail");
                 }
             }
-            return View();
+            return View(model);
         }
 
         [Authorize(Roles = "northwind-employee")]
