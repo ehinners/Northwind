@@ -65,7 +65,17 @@ namespace Northwind.Controllers
         }
 
         [Authorize(Roles = "northwind-employee")]
-        public IActionResult EditDiscount(int id) => View( _northwindContext.Discounts.FirstOrDefault(c => c.DiscountID == id));
+        public IActionResult EditDiscount(int id) 
+        {
+            if( _northwindContext.Discounts.Any(c => c.DiscountID == id))
+            {
+                return View( _northwindContext.Discounts.FirstOrDefault(c => c.DiscountID == id));
+            }
+            else{
+                return RedirectToAction("DiscountDetail");
+            }
+            
+        } 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -91,7 +101,10 @@ namespace Northwind.Controllers
         [Authorize(Roles = "northwind-employee")]
         public IActionResult DeleteDiscount(int id)
         {
-            _northwindContext.DeleteDiscount(_northwindContext.Discounts.FirstOrDefault(b => b.DiscountID == id));
+            if( _northwindContext.Discounts.Any(c => c.DiscountID == id))
+            {
+                _northwindContext.DeleteDiscount(_northwindContext.Discounts.FirstOrDefault(b => b.DiscountID == id));
+            }           
             return RedirectToAction("DiscountDetail");
         }
     }
