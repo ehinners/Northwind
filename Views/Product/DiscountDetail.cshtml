@@ -1,6 +1,6 @@
 @using Northwind.Models
 @if (User.IsInRole("northwind-employee")){
-    <button type="button" class="btn btn-primary btn-lg btn-block mb-4">Add A Discount</button>
+    <a type="button" class="btn btn-primary btn-lg btn-block mb-4" asp-controller="Product" asp-action="AddDiscount">Add A Discount</a>
     }
 @if (1 == 0)
 {
@@ -37,8 +37,10 @@ else
                 <td>@discount.Product.ProductName</td>
                 @if (User.IsInRole("northwind-employee")){
                     <td class="">
-                        <button type="button" class="btn btn-outline-primary btn-block">Edit</button> 
-                        <button type="button" class="btn btn-outline-danger btn-block">Delete</button>
+                        
+                            <a type="button" class="btn btn-outline-primary btn-block" asp-controller="Product" asp-action="EditDiscount" asp-route-id="@discount.DiscountID">Edit</a> 
+                            <a type="button" class="btn btn-outline-danger btn-block"  asp-controller="Product" asp-action="DeleteDiscount" asp-route-id="@discount.DiscountID">Delete</a>
+                        
                     </td>
                     }
             </tr>

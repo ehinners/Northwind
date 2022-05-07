@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System;
 
 namespace Northwind.Models
 {
@@ -60,6 +61,34 @@ namespace Northwind.Models
             SaveChanges();
             cartItem.Product = Products.Find(cartItem.ProductId);
             return cartItem;
+        }
+
+
+        public void AddDiscount(Discount discount)
+        {
+            this.Add(discount);
+            this.SaveChanges();
+        }
+
+        public void EditDiscount(Discount discount)
+        {
+            
+            var discountToUpdate = Discounts.FirstOrDefault(c => c.DiscountID == discount.DiscountID);
+            
+            discountToUpdate.StartTime = discount.StartTime;
+            discountToUpdate.EndTime = discount.EndTime;
+            discountToUpdate.ProductID = discount.ProductID;
+            discountToUpdate.DiscountPercent = discount.DiscountPercent;
+            discountToUpdate.Title = discount.Title;
+            discountToUpdate.Description = discount.Description;
+            discountToUpdate.Product = discount.Product;
+            SaveChanges();
+        }
+
+        public void DeleteDiscount(Discount discount)
+        {
+            this.Remove(discount);
+            this.SaveChanges();
         }
     }
 }

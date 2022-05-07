@@ -3,12 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Northwind.Models;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace Northwind.Controllers
 {
     public class ProductController : Controller
     {
+        private int discountCodeMin = 1000;
+        private int discountCodeMax = 9999;
         private NorthwindContext _northwindContext;
         public ProductController(NorthwindContext db) => _northwindContext = db;
         public ActionResult Category() => View(_northwindContext.Categories.OrderBy(b => b.CategoryName));
@@ -27,8 +30,105 @@ namespace Northwind.Controllers
         public ActionResult DiscountDetail()
         {
             var discounts = _northwindContext.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now).Include(p => p.Product);
+            if(User.IsInRole("northwind-employee"))
+            {
+                discounts = _northwindContext.Discounts.Include(p => p.Product);
+            }
+            
 
             return View(discounts);
+        }
+
+        [Authorize(Roles = "northwind-employee")]
+        public IActionResult AddDiscount() => View();
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "northwind-employee")]
+        public IActionResult AddDiscount(Discount model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_northwindContext.Discounts.Any(b => b.Title == model.Title))
+                {
+                    ModelState.AddModelError("", "Title MUST be unique");
+                }
+                if (_northwindContext.Products.Any(p => p.ProductId == model.ProductID && p.Discontinued == true))
+                {
+                    ModelState.AddModelError("", "Product must be active");
+                    return View(model);
+                }
+                if(model.ProductID > _northwindContext.Products.Count() || model.ProductID < 1){
+                    ModelState.AddModelError("", "Product must match existing product");
+                    return View(model);
+                }
+                else
+                {
+                    Random rnd = new Random();
+                    int newCode = rnd.Next(discountCodeMin, discountCodeMax+1);
+                    while(_northwindContext.Discounts.Any(b => b.Code == newCode))
+                    {
+                        newCode = rnd.Next(discountCodeMin, discountCodeMax+1);
+                    }
+                    model.Code = newCode;
+                    _northwindContext.AddDiscount(model);
+                    return RedirectToAction("DiscountDetail");
+                }
+            }
+            return View();
+        }
+
+        [Authorize(Roles = "northwind-employee")]
+        public IActionResult EditDiscount(int id) 
+        {
+            if( _northwindContext.Discounts.Any(c => c.DiscountID == id))
+            {
+                return View( _northwindContext.Discounts.FirstOrDefault(c => c.DiscountID == id));
+            }
+            else{
+                return RedirectToAction("DiscountDetail");
+            }
+            
+        } 
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "northwind-employee")]
+        public IActionResult EditDiscount(Discount model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (_northwindContext.Discounts.Any(b => b.Title == model.Title && (b.DiscountID != model.DiscountID)))
+                {
+                    ModelState.AddModelError("", "Title must be unique");
+                    return View(model);
+                }
+                if (_northwindContext.Products.Any(p => p.ProductId == model.ProductID && p.Discontinued == true))
+                {
+                    ModelState.AddModelError("", "Product must be active");
+                    return View(model);
+                }
+                if(model.ProductID > _northwindContext.Products.Count() || model.ProductID < 1){
+                    ModelState.AddModelError("", "Product must match existing product");
+                    return View(model);
+                }
+                else
+                {
+                    _northwindContext.EditDiscount(model);
+                    return RedirectToAction("DiscountDetail");
+                }
+            }
+            return View(model);
+        }
+
+        [Authorize(Roles = "northwind-employee")]
+        public IActionResult DeleteDiscount(int id)
+        {
+            if( _northwindContext.Discounts.Any(c => c.DiscountID == id))
+            {
+                _northwindContext.DeleteDiscount(_northwindContext.Discounts.FirstOrDefault(b => b.DiscountID == id));
+            }           
+            return RedirectToAction("DiscountDetail");
         }
     }
 }
