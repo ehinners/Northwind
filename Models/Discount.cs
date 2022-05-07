@@ -25,7 +25,5 @@ namespace Northwind.Models
 
         public Product Product { get; set; }
 
-        ICollection<Product> Products {get; set;}
-
     }
 }
