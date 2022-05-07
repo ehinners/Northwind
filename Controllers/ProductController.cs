@@ -48,6 +48,15 @@ namespace Northwind.Controllers
                 {
                     ModelState.AddModelError("", "Title MUST be unique");
                 }
+                if (_northwindContext.Products.Any(p => p.ProductId == model.ProductID && p.Discontinued == true))
+                {
+                    ModelState.AddModelError("", "Product must be active");
+                    return View(model);
+                }
+                if(model.ProductID > _northwindContext.Products.Count() || model.ProductID < 1){
+                    ModelState.AddModelError("", "Product must match existing product");
+                    return View(model);
+                }
                 else
                 {
                     Random rnd = new Random();
@@ -87,6 +96,15 @@ namespace Northwind.Controllers
                 if (_northwindContext.Discounts.Any(b => b.Title == model.Title && (b.DiscountID != model.DiscountID)))
                 {
                     ModelState.AddModelError("", "Title must be unique");
+                    return View(model);
+                }
+                if (_northwindContext.Products.Any(p => p.ProductId == model.ProductID && p.Discontinued == true))
+                {
+                    ModelState.AddModelError("", "Product must be active");
+                    return View(model);
+                }
+                if(model.ProductID > _northwindContext.Products.Count() || model.ProductID < 1){
+                    ModelState.AddModelError("", "Product must match existing product");
                     return View(model);
                 }
                 else
