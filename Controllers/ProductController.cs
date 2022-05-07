@@ -30,6 +30,11 @@ namespace Northwind.Controllers
         public ActionResult DiscountDetail()
         {
             var discounts = _northwindContext.Discounts.Where(d => d.StartTime <= DateTime.Now && d.EndTime > DateTime.Now).Include(p => p.Product);
+            if(User.IsInRole("northwind-employee"))
+            {
+                discounts = _northwindContext.Discounts.Include(p => p.Product);
+            }
+            
 
             return View(discounts);
         }
@@ -47,6 +52,15 @@ namespace Northwind.Controllers
                 if (_northwindContext.Discounts.Any(b => b.Title == model.Title))
                 {
                     ModelState.AddModelError("", "Title MUST be unique");
+                }
+                if (_northwindContext.Products.Any(p => p.ProductId == model.ProductID && p.Discontinued == true))
+                {
+                    ModelState.AddModelError("", "Product must be active");
+                    return View(model);
+                }
+                if(model.ProductID > _northwindContext.Products.Count() || model.ProductID < 1){
+                    ModelState.AddModelError("", "Product must match existing product");
+                    return View(model);
                 }
                 else
                 {
@@ -87,6 +101,15 @@ namespace Northwind.Controllers
                 if (_northwindContext.Discounts.Any(b => b.Title == model.Title && (b.DiscountID != model.DiscountID)))
                 {
                     ModelState.AddModelError("", "Title must be unique");
+                    return View(model);
+                }
+                if (_northwindContext.Products.Any(p => p.ProductId == model.ProductID && p.Discontinued == true))
+                {
+                    ModelState.AddModelError("", "Product must be active");
+                    return View(model);
+                }
+                if(model.ProductID > _northwindContext.Products.Count() || model.ProductID < 1){
+                    ModelState.AddModelError("", "Product must match existing product");
                     return View(model);
                 }
                 else
